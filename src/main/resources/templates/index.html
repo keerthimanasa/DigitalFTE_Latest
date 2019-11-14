@@ -1,0 +1,272 @@
+<!-- <html>
+<head>
+	  <title>Spring Boot - Angularjs Example</title>
+	  <meta charset="utf-8" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1" />
+	  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.min.js"></script>
+	  <script src="/js/controller.js"></script>
+	  
+</head>
+<body>
+	<div ng-app="app" ng-controller="controller">
+		<button id="btn-id" ng-click="clickfunction()">Press for Time</button>
+		<p ng-bind="welcome"></p>
+	</div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+ <script src="/js/controller.js"></script>
+ <script src="/js/checklist-model.js"></script>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+* {
+	box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: vertical;
+}
+
+label {
+	padding: 12px 12px 12px 0;
+	display: inline-block;
+}
+
+input[type=submit] {
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	float: right;
+}
+
+input[type=submit]:hover {
+	background-color: #45a049;
+}
+
+.container {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+}
+
+.col-25 {
+	float: left;
+	width: 25%;
+	margin-top: 6px;
+}
+
+.col-75 {
+	float: left;
+	width: 75%;
+	margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+	.col-25, .col-75, input[type=submit] {
+		width: 100%;
+		margin-top: 0;
+	}
+}
+</style>
+</head>
+<body ng-controller="controller">
+
+	<h3>Project Initializer</h3>
+	<p>Bootstrap your Application</p>
+
+	<div class="container">
+		<form ng-submit ="projectInitForm()">
+			<div class="row">
+				<div class="col-25">
+					<label for="fname">Language</label>
+				</div>
+				<div class="col-75">
+				
+					<label for="java" class="radio-inline">
+					 <input checked id="java" type="radio" name="language" ng-model="java.language" value="java">Java
+					</label> 					
+					<label  for ="net"class="radio-inline">
+					 <input id="net" type="radio" name="language" ng-model="java.language" value ="net">.Net
+					</label>
+					
+					 <label for = "python" class="radio-inline">
+					  <input id="python" type="radio" name="language" ng-model="java.language" value = "python">Python
+					</label>
+					
+				</div>
+			</div>
+			<div id="java" ng-if="java.language=='java'"> 
+			
+			<div class="row">
+				<div class="col-25">
+					<label for="project">Project</label>
+				</div>
+				<div class="col-75">
+				
+					<label class="radio-inline">
+					 <input type="radio" name="project"  value ="maven-project" ng-model="java.project" checked>Maven Project
+					</label>
+					
+					 <label class="radio-inline"> 
+					 <input type="radio" name="project" value="gradel" ng-model="java.project">Gradel Project
+					 </label>
+					 
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="springversion">Spring Boot</label>
+				</div>
+				<div class="col-75">
+				
+					<!-- <label class="radio-inline"> 
+					<input type="radio" name="springversion" value="2.2.1(SNAPSHOT)" ng-model="java.version" checked>2.2.1(SNAPSHOT)
+					</label> -->
+					
+				    <label class="radio-inline">
+				    <input type="radio" name="springversion" value="2.2.0.RELEASE" ng-model="java.version">2.2.0.RELEASE
+					</label> 
+					
+					<!-- <label class="radio-inline"> 
+					<input type="radio"name="springversion" value="2.1.10" ng-model="java.version">2.1.10(SNAPSHOT)
+					</label>
+					
+					 <label class="radio-inline">
+					  <input type="radio" name="springversion" value="2.1.9" ng-model="java.version">2.1.9
+					</label> -->
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="lname">Project Metadata</label>
+				</div>
+				<div class="col-75">
+					<div class="col-75">
+									<div class="col-25">Group ID</div>
+					<input type="text" id="group" name="group" placeholder="Group Id" ng-model="java.groupId">
+					
+				</div>
+				<div class="col-75">
+													<div class="col-25">Artifact ID</div>
+					<input type="text" id="artifact" name="artifact" placeholder="Artifact" ng-model="java.artifactId">
+				</div>
+				<div class="col-75">
+					Options  <i class="fa fa-plus" style="font-size:13px;" ng-click="onClickOptions()"></i>
+				</div>
+				<div class="col-75" ng-show="visible">
+				<div class="col-75">
+				<div class="col-25">Project Name</div>
+					<div class="col-50"><input type="text" id="projectname" value={{java.artifactId}} placeholder={{java.artifactId}} name="java.projectName" ng-model="java.projectName">
+				</div>
+				</div>
+				<div class="col-75">
+				<div class="col-25">Project Description</div>
+					<input type="text" id="projectdesc" name="java.projectDesc" placeholder="Spring Boot Application" ng-model="java.projectDesc">
+				</div>
+				<div class="col-75">
+				  <div class="col-25">Package Name</div>
+					<input type="text" id="packageName" value={{java.groupId}} placeholder={{java.groupId}} name="java.packageName" ng-model="java.packageName">
+				</div>
+				<div class ="col-75">
+					<label class="radio-inline"> 
+					<input type="radio" name="javaversion" value="1.8" ng-model="java.javaVersion">java 8
+					</label>
+					</div>
+				</div>
+				</div>
+				<div class="col-75">
+				
+				</div>
+			</div>
+			
+			<div class="row">
+			    <div class="col-25">
+					<label for="subject">Domain Name</label>
+				</div>
+				<div class="col-75">
+				    <input type="text" id="domainName" value={{java.domainName}} placeholder="Domain Name" name="java.domainName" ng-model="java.domainName">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-25">
+					<label for="subject">Dependencies</label>
+				</div>
+				<div class="col-75">
+					<!-- <label class="radio-inline">
+					 <input type="checkbox" name="springdependencies" value="springweb" ng-model="springdependencies.springweb" >Spring Web
+					</label> 
+					<label class="radio-inline"> 
+					<input type="checkbox" name="springdependencies" value="lambok" ng-model="springdependencies.lambok" >Lambok
+					</label>
+					 <label class="radio-inline"> 
+					 <input type="checkbox"name="springdependencies" value="thymeleaf" ng-model="springdependencies.thymeleaf"> Thymeleaf
+					</label> 
+					<label class="radio-inline">
+					 <input type="checkbox" name="springdependencies" value="devtools" ng-model="springdependencies.devtools" >Devtools
+					</label>
+					<label class="radio-inline">
+					 <input type="checkbox"name="springdependencies" value="springsecurity" ng-model="springdependencies.springsecurity" >Spring Security
+					</label>
+					 <label class="radio-inline">
+					  <input type="checkbox" name="springdependencies"value="springdatajpa" ng-model="springdependencies.springdatajpa" >Spring Data JPA
+					</label>
+					 <label class="radio-inline"> 
+					 <input type="checkbox" name="springdependencies" value="actuator" ng-model="springdependencies.actuator" >Actuator
+					</label>
+					 <label class="radio-inline">
+					  <input type="checkbox" name="springdependencies" value="zuul" ng-model="springdependencies.zuul" >Zuul
+					</label> -->
+					<label ng-repeat="dependency in dependencies">
+  						<input type="checkbox" checklist-model="java.dependencies" checklist-value="dependency.value"> {{dependency.displayValue}}
+					</label>
+				</div>
+				</div>
+				 
+			
+			
+			<div class="row">
+				<input type="submit" value="Generate" style="margin-right: 50%; margin-top:2%;">
+			</div>
+			</div>
+		</form>
+	</div>
+
+<!-- <script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script> -->
+</body>
+</html>
